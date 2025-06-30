@@ -13,7 +13,7 @@
         @method('put')
 
         <div>
-            <img src="storage/{{ $profile->picture }}" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%; background-color: #ccc;">
+            <img src="{{ asset('storage/' . $profile->picture) }}" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%; background-color: #ccc;">
             <input type="file" name="picture" id="picture" value="{{ old('picture') ?? $profile->picture }}" />
 
             @error('picture')
