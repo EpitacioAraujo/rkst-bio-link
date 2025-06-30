@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rules\Password;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $appEnviroment = env('APP_ENVIROMENT');
+
+        Model::unguard();
+
+        Password::defaults(function () use($appEnviroment) {
+            $rule = Password::min(8);
+
+            return $appEnviroment === 'production'
+                ? $rule->mixedCase()->min(8)->numbers()
+                : $rule;
+        });
     }
 }
