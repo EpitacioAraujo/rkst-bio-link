@@ -3,12 +3,12 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\BioLinkController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LinksController;
 use App\Http\Controllers\ProfileController;
-use App\Models\Links;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/', function () {
     return redirect()->route('dashboard');
@@ -44,3 +44,5 @@ Route::middleware('auth')->group(function() {
     Route::get('/me', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/me', [ProfileController::class, 'update']);
 });
+
+Route::get('/{handler}', BioLinkController::class);

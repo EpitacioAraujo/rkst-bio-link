@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 
@@ -24,6 +26,14 @@ class AppServiceProvider extends ServiceProvider
         $appEnviroment = env('APP_ENVIROMENT');
 
         Model::unguard();
+
+        Route::bind('handler', function ($value){
+            return User::select()
+                ->withWhereHas('profile', function ($query) use ($value) {
+                    $query->where('handler', '=', $value);
+                })
+                ->firstOrFail();
+        });
 
         Password::defaults(function () use($appEnviroment) {
             $rule = Password::min(8);
